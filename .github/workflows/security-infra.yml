@@ -1,0 +1,31 @@
+name: Security & Cost Controls
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # daily
+  workflow_dispatch:
+
+jobs:
+  check-terraform-security:
+    name: Terraform Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          path: terraform/
+
+  check-terraform-cost:
+    name: Terraform Cost Estimation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Infracost breakdown
+        uses: infracost/actions/breakdown@v2
+        with:
+          path: terraform/environments/dev
+          format: table
+          show-skipped: true

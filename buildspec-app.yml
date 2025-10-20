@@ -1,0 +1,23 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo Installing dependencies
+      - cd app
+      - npm install --production
+  pre_build:
+    commands:
+      - echo Pre-build phase
+  build:
+    commands:
+      - echo Building Docker image
+      - docker build -t $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+  post_build:
+    commands:
+      - echo Pushing Docker image
+      - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+artifacts:
+  files:
+    - app/**

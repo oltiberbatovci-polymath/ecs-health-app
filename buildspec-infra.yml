@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      terraform: 1.6
+    commands:
+      - echo Installing Terraform
+  pre_build:
+    commands:
+      - terraform -chdir=terraform/environments/dev init
+      - terraform -chdir=terraform/environments/dev validate
+  build:
+    commands:
+      - terraform -chdir=terraform/environments/dev plan -out=tfplan
+  post_build:
+    commands:
+      - terraform -chdir=terraform/environments/dev apply -auto-approve tfplan
