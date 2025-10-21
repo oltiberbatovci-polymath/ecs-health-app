@@ -15,3 +15,6 @@ phases:
   post_build:
     commands:
       - terraform -chdir=terraform/environments/dev apply -auto-approve tfplan
+
+
+

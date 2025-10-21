@@ -37,7 +37,6 @@ resource "aws_nat_gateway" "ngw" {
 
 resource "aws_eip" "nat" {
   count = length(var.public_subnets)
-  vpc = true
   tags = merge(var.tags, { Name = "${var.name}-eip-${count.index}" })
 }
 
